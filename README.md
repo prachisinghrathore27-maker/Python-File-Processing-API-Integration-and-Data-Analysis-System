@@ -1,6 +1,6 @@
-# Python-Automation-API-Integration-and-Data-Analytics-Suite
+# Python-File-Processing-API-Integration-and-Data-Analysis-System
 A collection of Python internship projects demonstrating file automation, API integration, data processing, exception handling, and data analytics using Pandas.
-# Python Automation, API Integration & Data Analytics Suite
+
 
 A collection of internship projects showcasing practical Python skills in:
 
