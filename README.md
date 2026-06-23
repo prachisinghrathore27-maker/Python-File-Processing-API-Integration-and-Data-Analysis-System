@@ -1,50 +1,35 @@
-# pythondev-task1
-### Python File Handling and Automation Demo This notebook demonstrates: 1. Reading and Writing Files (TXT/CSV) 2. Automation (Rename/Move/Delete) 3. Exception Handling
-This project demonstrates the implementation of file handling and automation techniques using Python. The objective is to automate common file operations such as creating, reading, writing, processing CSV files, renaming files, and handling exceptions efficiently.
+# task3-pythondev
+This project demonstrates the use of the Pandas library for data analysis and manipulation in Python. The objective is to load, inspect, clean, filter, group, and analyze a dataset to extract meaningful insights.
 
-The project provides practical exposure to Python's file management capabilities and showcases how repetitive file-related tasks can be automated.
+For this project, the Titanic dataset was used to perform exploratory data analysis (EDA) and understand patterns within the data.
+
+# Objectives
+Load and inspect a dataset
+Explore dataset structure and statistics
+Identify and handle missing values
+Filter records based on specific conditions
+Perform grouping and aggregation operations
+Generate meaningful insights from data
+Export processed data for future use
 
 # Technologies Used
 Python 3
 Google Colab
-os Module
-shutil Module
-csv Module
+Pandas
+NumPy
+Matplotlib 
 
-# Features
-Create and manage directories
-Create and write text files
-Read and display file contents
-Create and process CSV files
-Rename and organize files
-Display directory contents
-Handle exceptions gracefully
-Perform basic file automation operations
+# Dataset
+Titanic Dataset
 
-# Implementation Steps
-1. Directory Creation
+The dataset contains information about passengers aboard the Titanic, including:
 
-A new directory is created using the os module to store project files.
-
-2. Text File Handling
-Create a text file
-Write content into the file
-Read and display file contents
-3. CSV File Handling
-Create CSV files
-Store structured data
-Read and process records
-4. File Automation
-Rename files automatically
-Manage file locations
-Organize project files
-5. Exception Handling
-
-Implemented error handling using:
-
-try:
-except:
-
-to prevent unexpected program crashes.
-
-
+Passenger ID
+Passenger Class
+Name
+Gender
+Age
+Fare
+Cabin Information
+Embarkation Port
+Survival Status

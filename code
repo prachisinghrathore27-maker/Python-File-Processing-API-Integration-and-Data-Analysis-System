@@ -1,71 +1,239 @@
-import os
-import shutil
-import csv
+# ==========================================
+# Data Analysis Using Pandas
+# Internship Task 3
+# Author: Prachi Singh Rathore
+# ==========================================
 
-# Define paths for our demonstration
-base_dir = './file_demo'
-input_file = os.path.join(base_dir, 'sample.txt')
-csv_file = os.path.join(base_dir, 'data.csv')
-moved_file = os.path.join(base_dir, 'archived_sample.txt')
+import pandas as pd
 
-def setup_demo():
-    """Creates a directory and sample files for automation demo."""
-    try:
-        if not os.path.exists(base_dir):
-            os.makedirs(base_dir)
-            print(f"Created directory: {base_dir}")
+try:
+    print("=" * 50)
+    print("DATA ANALYSIS USING PANDAS")
+    print("=" * 50)
 
-        # 1. Writing to a Text File
-        with open(input_file, 'w') as f:
-            f.write("Hello, this is a sample text file for automation demo.")
+    # --------------------------------------
+    # Load Dataset
+    # --------------------------------------
 
-        # 2. Writing to a CSV File
-        with open(csv_file, 'w', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(['ID', 'Name', 'Status'])
-            writer.writerow([1, 'Task_A', 'Completed'])
-            writer.writerow([2, 'Task_B', 'Pending'])
+    dataset_url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
 
-        print("Sample files created successfully.")
-    except Exception as e:
-        print(f"Error during setup: {e}")
+    df = pd.read_csv(dataset_url)
 
-def automate_files():
-    """Demonstrates reading, renaming, and moving files with error handling."""
-    try:
-        # 3. Reading the text file
-        print("\n--- Reading File ---")
-        with open(input_file, 'r') as f:
-            content = f.read()
-            print(f"Content read: {content}")
+    print("\nDataset Loaded Successfully!")
 
-        # 4. Renaming/Moving a file (Automation)
-        print("\n--- Automating File Operations ---")
-        if os.path.exists(input_file):
-            shutil.move(input_file, moved_file)
-            print(f"Moved and Renamed '{input_file}' to '{moved_file}'")
+    # --------------------------------------
+    # Display First Records
+    # --------------------------------------
 
-        # 5. Reading from the CSV file
-        print("\n--- Reading CSV Data ---")
-        with open(csv_file, 'r') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                print(f"Processing: {row['Name']} - {row['Status']}")
+    print("\nFIRST 5 RECORDS")
+    print(df.head())
 
-    except FileNotFoundError:
-        print("Error: The requested file was not found.")
-    except PermissionError:
-        print("Error: You do not have permission to access these files.")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-    finally:
-        print("\nFile operation sequence completed.")
+    # --------------------------------------
+    # Dataset Information
+    # --------------------------------------
 
-# Execute the demo
-setup_demo()
-automate_files()
+    print("\nDATASET INFORMATION")
+    print(df.info())
 
-# Verification: List files in the demo directory
-if os.path.exists(base_dir):
-    print(f"Current files in {base_dir}:")
-    print(os.listdir(base_dir))
+    # --------------------------------------
+    # Statistical Summary
+    # --------------------------------------
+
+    print("\nSTATISTICAL SUMMARY")
+    print(df.describe())
+
+    # --------------------------------------
+    # Dataset Shape
+    # --------------------------------------
+
+    print("\nDATASET SHAPE")
+    print("Rows:", df.shape[0])
+    print("Columns:", df.shape[1])
+
+    # --------------------------------------
+    # Column Names
+    # --------------------------------------
+
+    print("\nCOLUMN NAMES")
+    print(df.columns.tolist())
+
+    # --------------------------------------
+    # Missing Values
+    # --------------------------------------
+
+    print("\nMISSING VALUES")
+    print(df.isnull().sum())
+
+    # --------------------------------------
+    # Data Cleaning
+    # --------------------------------------
+
+    print("\nCLEANING MISSING VALUES...")
+
+    df["Age"] = df["Age"].fillna(df["Age"].mean())
+
+    df["Embarked"] = df["Embarked"].fillna(
+        df["Embarked"].mode()[0]
+    )
+
+    df["Cabin"] = df["Cabin"].fillna("Unknown")
+
+    print("Missing Values Cleaned Successfully!")
+
+    # --------------------------------------
+    # Total Passengers
+    # --------------------------------------
+
+    total_passengers = len(df)
+
+    print("\nTOTAL PASSENGERS")
+    print(total_passengers)
+
+    # --------------------------------------
+    # Total Survivors
+    # --------------------------------------
+
+    total_survivors = df["Survived"].sum()
+
+    print("\nTOTAL SURVIVORS")
+    print(total_survivors)
+
+    # --------------------------------------
+    # Survival Rate
+    # --------------------------------------
+
+    survival_rate = df["Survived"].mean() * 100
+
+    print("\nSURVIVAL RATE")
+    print(round(survival_rate, 2), "%")
+
+    # --------------------------------------
+    # Male and Female Count
+    # --------------------------------------
+
+    print("\nPASSENGER COUNT BY GENDER")
+    print(df["Sex"].value_counts())
+
+    # --------------------------------------
+    # Passenger Class Distribution
+    # --------------------------------------
+
+    print("\nPASSENGER CLASS DISTRIBUTION")
+    print(df["Pclass"].value_counts())
+
+    # --------------------------------------
+    # Filtering
+    # --------------------------------------
+
+    print("\nPASSENGERS ABOVE AGE 30")
+
+    passengers_above_30 = df[df["Age"] > 30]
+
+    print(passengers_above_30.head())
+
+    # --------------------------------------
+    # Female Survivors
+    # --------------------------------------
+
+    print("\nFEMALE SURVIVORS")
+
+    female_survivors = df[
+        (df["Sex"] == "female")
+        &
+        (df["Survived"] == 1)
+    ]
+
+    print(female_survivors.head())
+
+    # --------------------------------------
+    # Grouping by Gender
+    # --------------------------------------
+
+    print("\nSURVIVAL RATE BY GENDER")
+
+    gender_survival = df.groupby(
+        "Sex"
+    )["Survived"].mean()
+
+    print(gender_survival)
+
+    # --------------------------------------
+    # Grouping by Passenger Class
+    # --------------------------------------
+
+    print("\nSURVIVAL RATE BY PASSENGER CLASS")
+
+    class_survival = df.groupby(
+        "Pclass"
+    )["Survived"].mean()
+
+    print(class_survival)
+
+    # --------------------------------------
+    # Average Age by Gender
+    # --------------------------------------
+
+    print("\nAVERAGE AGE BY GENDER")
+
+    avg_age = df.groupby(
+        "Sex"
+    )["Age"].mean()
+
+    print(avg_age)
+
+    # --------------------------------------
+    # Average Fare by Class
+    # --------------------------------------
+
+    print("\nAVERAGE FARE BY PASSENGER CLASS")
+
+    avg_fare = df.groupby(
+        "Pclass"
+    )["Fare"].mean()
+
+    print(avg_fare)
+
+    # --------------------------------------
+    # Highest Fare
+    # --------------------------------------
+
+    print("\nHIGHEST FARE PAID")
+
+    highest_fare = df["Fare"].max()
+
+    print(highest_fare)
+
+    # --------------------------------------
+    # Save Processed Dataset
+    # --------------------------------------
+
+    df.to_csv(
+        "processed_titanic.csv",
+        index=False
+    )
+
+    print("\nProcessed Dataset Saved Successfully!")
+
+    # --------------------------------------
+    # Project Insights
+    # --------------------------------------
+
+    print("\nPROJECT INSIGHTS")
+    print("-" * 50)
+
+    print("1. Female passengers had a higher survival rate.")
+    print("2. First-class passengers had better survival chances.")
+    print("3. Most passengers belonged to third class.")
+    print("4. Missing values were successfully cleaned.")
+    print("5. Dataset was analyzed and exported.")
+
+    print("\nPROJECT COMPLETED SUCCESSFULLY!")
+
+except FileNotFoundError:
+
+    print("Dataset file not found.")
+
+except Exception as e:
+
+    print("An error occurred:")
+    print(e)
